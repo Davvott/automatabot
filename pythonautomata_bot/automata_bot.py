@@ -2,28 +2,36 @@
 import requests
 import random
 
-URL = "https://api.noopschallenge.com/automatabot/rules"
-URL_challenge = "https://api.noopschallenge.com/automatabot/challenges/new"
-URL_post = "https://api.noopschallenge.com{}"
+DOMAIN = "https://api.noopschallenge.com"
+RULES = "/automatabot/rules"
+NEW = "/automatabot/challenges/new"
 
 
 class AutomataBot:
     """Automata Class. Fetches rules and challenge and initializes from there. """
-    def __init__(self):
+    def __init__(self, challenge=NEW):
         self.download = self.fetch_rules()
         self.rules = random.choice(self.download)
-        self.challenge = self.fetch_challenge()
-        self.challengepath = self.challenge['challengePath']
 
-        self.name = self.challenge['challenge']['rules']['name']
-        self.birth = self.challenge['challenge']['rules']['birth']
-        self.survival = self.challenge['challenge']['rules']['survival']
+        self.challenge = self.fetch_challenge(challenge=challenge)
+        try:
+            self.challengepath = self.challenge['challengePath']
+            self.name = self.challenge['challenge']['rules']['name']
+            self.birth = self.challenge['challenge']['rules']['birth']
+            self.survival = self.challenge['challenge']['rules']['survival']
+            self.cells = self.challenge['challenge']['cells']
+            self.generations = self.challenge['challenge']['generations']
+        except KeyError:
+            self.challengepath = ""
+            self.name = self.challenge['rules']['name']
+            self.birth = self.challenge['rules']['birth']
+            self.survival = self.challenge['rules']['survival']
+            self.cells = self.challenge['cells']
+            self.generations = self.challenge['generations']
 
-        self.cells = self.challenge['challenge']['cells']
-        self.generations = self.challenge['challenge']['generations']
-        self.success = False
         self.rows = len(self.cells)
         self.cols = len(self.cells[0])
+        self.success = False
 
     def __str__(self):
         return "Name: {}, Birth: {}, Survival: {}, Life Span: {}, Cols: {}, Rows: {}\n{}".format(
@@ -32,14 +40,16 @@ class AutomataBot:
     @staticmethod
     def fetch_rules():
         """You gotta know the rules to break them"""
-        req = requests.get(URL)
+        url = DOMAIN + RULES
+        req = requests.get(url)
         result = req.json()
         return result
 
     @staticmethod
-    def fetch_challenge():
+    def fetch_challenge(challenge):
         """Ready!"""
-        req = requests.get(URL_challenge)
+        url = DOMAIN + challenge
+        req = requests.get(url)
         result = req.json()
         return result
 
@@ -78,7 +88,7 @@ class AutomataBot:
 
     def send_challenge_solution(self):
         """To win, or not to win. That is the challenge."""
-        post = URL_post.format(self.challengepath)
+        post = DOMAIN + self.challengepath
         print(post)
         req = requests.post(post, json=self.cells)
         r = req.json()

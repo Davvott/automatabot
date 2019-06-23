@@ -12,6 +12,11 @@ Built on Tkinter. Should be good to go for Python 3.6
 
 Automatically sends solution to Noops API for resolution of confirmation bias...
 
+> pass in different requests to AutomataBot(challenge="") as per API.md
+> REDO: challenge="/automatabot/challenges/-challengePath-
+> SPECIFIC RANDOM challenge="/automatabot/rules/NAME/random"
+
+
 ## TODO
 * Settings to alter speed, refresh automata, (see API for more challenges!)
 * ... ? Popup for success? Write on iterations of challenges to hdd?

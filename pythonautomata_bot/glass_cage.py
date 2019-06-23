@@ -5,7 +5,9 @@ from automatabot.pythonautomata_bot.automata_grid import MainApp
 
 
 def main():
-    automatabot = AutomataBot(challenge="/automatabot/rules/conway/random")
+    # Alternatvie request
+    # automatabot = AutomataBot(challenge="/automatabot/rules/inverse/random")
+    automatabot = AutomataBot()
     print(automatabot)
 
     root = Tk()

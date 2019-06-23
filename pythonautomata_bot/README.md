@@ -10,9 +10,12 @@ Copied and pasted from my other repo. Successfully solves noops challenge seeds.
 
 Built on Tkinter. Should be good to go for Python 3.6
 
+Automatically sends solution to Noops API for resolution of confirmation bias...
+
 ## TODO
+* Settings to alter speed, refresh automata, (see API for more challenges!)
 * ... ? Popup for success? Write on iterations of challenges to hdd?
-* Hack it so it runs forever?
+* Hack it so it runs forever? Oh wait it kind does that.
 
 
 ## Also...

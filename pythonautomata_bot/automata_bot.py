@@ -56,15 +56,13 @@ class AutomataBot:
         """Parses next game state, returns a list of tile coordinates that will change for next_state
         Tk Grid takes care of flipping their color"""
         offset_coords = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-
         flip_cells = []
-        # alive_cells = self.get_alive_cells()  # returns list of pairs
 
         for j in range(self.rows):
             for i in range(self.cols):
                 # Count your blessings
                 nei = []
-                for x, y in offset_coords:  # unpack tuple
+                for x, y in offset_coords:
                     if -1 < j + y < self.rows and -1 < x + i < self.cols:
                         nei.append(self.cells[j + y][i + x])
                 alive_nei = sum(nei)  # Does it die?
@@ -84,7 +82,6 @@ class AutomataBot:
         if self.generations == 0:
             self.send_challenge_solution()
 
-        # flip_cells = dead_cells + live_cells
         return flip_cells
 
     def send_challenge_solution(self):
@@ -103,7 +100,6 @@ class AutomataBot:
     def get_alive_cells(self):
         """Returns list of pairs of [[y, x],...]"""
         coords = []
-        # iterate over entire initial
         for j, row in enumerate(self.cells):
             for i, col_el in enumerate(row):
                 if col_el == 1:  # its alive

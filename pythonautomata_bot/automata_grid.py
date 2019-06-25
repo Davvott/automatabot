@@ -82,7 +82,7 @@ class MainApp(tk.Frame):
         self._game_type.set(title)
 
         self._delay = IntVar()
-        self._delay = 1000
+        self._delay = 500
 
         self.cols = IntVar()
         self.rows = IntVar()

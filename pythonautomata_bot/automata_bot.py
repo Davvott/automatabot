@@ -28,7 +28,6 @@ class AutomataBot:
             self.survival = self.challenge['rules']['survival']
             self.cells = self.challenge['cells']
             self.generations = self.challenge['generations']
-
         self.rows = len(self.cells)
         self.cols = len(self.cells[0])
         self.success = False
@@ -58,6 +57,7 @@ class AutomataBot:
         Tk Grid takes care of flipping their color"""
         dead_cells = []
         live_cells = []
+        flip_cells = []
         alive_cells = self.get_alive_cells()  # returns list of pairs
 
         for j in range(self.rows):
@@ -65,25 +65,23 @@ class AutomataBot:
                 # Count your blessings
                 alive_nei = self.count_neighbors(x=i, y=j, alive=alive_cells)  # returns int
                 # Does it die?
-                if alive_nei not in self.survival and [j, i] in alive_cells:  # dies
-                    dead_cells.append([j, i])
+                if alive_nei not in self.survival and self.cells[j][i] == 1:  # dies
+                    flip_cells.append([j, i])
                 # Does it arise?
-                elif alive_nei in self.birth and [j, i] not in alive_cells:  # birth
-                    live_cells.append([j, i])
+                elif alive_nei in self.birth and self.cells[j][i] != 1:  # birth
+                    flip_cells.append([j, i])
                 else:
                     pass  # I will survive!
 
         # set cells to next state
-        for cell in dead_cells:
-            self.cells[cell[0]][cell[1]] = 0
-        for cell in live_cells:
-            self.cells[cell[0]][cell[1]] = 1
+        for y, x in flip_cells:
+            self.cells[y][x] = 1 if self.cells[y][x] == 0 else 0
 
         self.generations -= 1
         if self.generations == 0:
             self.send_challenge_solution()
 
-        flip_cells = dead_cells + live_cells
+        # flip_cells = dead_cells + live_cells
         return flip_cells
 
     def send_challenge_solution(self):
